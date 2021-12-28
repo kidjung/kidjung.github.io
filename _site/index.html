@@ -5,22 +5,22 @@
   Free for personal and commercial use under the MIT license
   https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
 -->
-<html lang="en" class="no-js">
+<html lang="ko" class="no-js">
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>Site Title</title>
+<!-- begin _includes/seo.html --><title>KIDEV blog</title>
 <meta name="description" content="An amazing website.">
 
 
-  <meta name="author" content="Your Name">
+  <meta name="author" content="Ki Jung Park">
   
 
 
 <meta property="og:type" content="website">
-<meta property="og:locale" content="en_US">
-<meta property="og:site_name" content="Site Title">
-<meta property="og:title" content="Site Title">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:site_name" content="KIDEV blog">
+<meta property="og:title" content="KIDEV blog">
 <meta property="og:url" content="http://localhost:4000/">
 
 
@@ -51,7 +51,7 @@
     "@context": "https://schema.org",
     
       "@type": "Person",
-      "name": "Your Name",
+      "name": "KIDEV blog",
       "url": "http://localhost:4000/"
     
   }
@@ -67,7 +67,7 @@
 
 
 
-  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Site Title Feed">
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="KIDEV blog Feed">
 
 
 <!-- https://t.co/dKP3o1e -->
@@ -81,6 +81,10 @@
 <link rel="stylesheet" href="/assets/css/main.css">
 <link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+<!-- darkmode css -->
+
+<link rel="stylesheet" href="/assets/css/main_dark.css">
+
 
 
 
@@ -113,15 +117,20 @@
       <nav id="site-nav" class="greedy-nav">
         
         <a class="site-title" href="/">
-          Site Title
-          
+          KIDEV blog
+          <span class="site-subtitle">always wanna grow up</span>
         </a>
         <ul class="visible-links"><li class="masthead__menu-item">
               <a href="https://mmistakes.github.io/minimal-mistakes/docs/quick-start-guide/">Quick-Start Guide</a>
             </li></ul>
         
+        <!-- 다크 모드 토글 버튼 -->
+        <!-- 
+        <input id="toggle_dark_theme" class="mh_toogle" type="checkbox">
+        <label for="toggle_dark_theme" class="material-icons-sharp mh_toggle_btn"></label>
+         -->
         <button class="greedy-nav__toggle hidden" type="button">
-          <span class="visually-hidden">Toggle menu</span>
+          <span class="visually-hidden">토글 메뉴</span>
           <div class="navicon"></div>
         </button>
         <ul class="hidden-links hidden"></ul>
@@ -145,38 +154,48 @@
 <div itemscope itemtype="https://schema.org/Person" class="h-card">
 
   
+    <div class="author__avatar">
+      <a href="http://localhost:4000/">
+        <img src="/assets/AVATAR.PNG" alt="Ki Jung Park" itemprop="image" class="u-photo">
+      </a>
+    </div>
+  
 
   <div class="author__content">
     <h3 class="author__name p-name" itemprop="name">
-      <a class="u-url" rel="me" href="http://localhost:4000/" itemprop="url">Your Name</a>
+      <a class="u-url" rel="me" href="http://localhost:4000/" itemprop="url">Ki Jung Park</a>
     </h3>
     
       <div class="author__bio p-note" itemprop="description">
-        <p>I am an <strong>amazing</strong> person.</p>
+        <p>Hi I’m KidJung. <br /> Here is my playground. 💻</p>
 
       </div>
     
   </div>
 
   <div class="author__urls-wrapper">
-    <button class="btn btn--inverse">Follow</button>
+    <button class="btn btn--inverse">팔로우</button>
     <ul class="author__urls social-icons">
       
         <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
-          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name" class="p-locality">Somewhere</span>
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name" class="p-locality">Currently I'm in Seoul!</span>
         </li>
       
 
       
         
           
-        
+            <li><a href="mailto:kjpark4321@gmail.com" rel="nofollow noopener noreferrer me"><i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">kjpark4321@gmail.com</span></a></li>
           
         
           
         
           
         
+          
+        
+          
+            <li><a href="https://github.com/kidjung" rel="nofollow noopener noreferrer me"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
           
         
           
@@ -252,7 +271,7 @@
     
     
 
-<h3 class="archive__subtitle">Recent posts</h3>
+<h3 class="archive__subtitle">최근 포스트</h3>
 
 
 
@@ -278,7 +297,7 @@
         <div class="page__footer-follow">
   <ul class="social-icons">
     
-      <li><strong>Follow:</strong></li>
+      <li><strong>팔로우:</strong></li>
     
 
     
@@ -288,6 +307,8 @@
         
       
         
+          <li><a href="https://github.com/kidjung" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
       
         
       
@@ -298,12 +319,12 @@
     
 
     
-      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+      <!-- <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> 피드</a></li> -->
     
   </ul>
 </div>
 
-<div class="page__footer-copyright">&copy; 2021 Your Name. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+<div class="page__footer-copyright">&copy; 2021 KIDEV blog. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
 
       </footer>
     </div>
@@ -317,6 +338,10 @@
 
 
 
+
+  
+    <script src="/assets/js/custom/dark-theme.js"></script>
+  
 
 
 
