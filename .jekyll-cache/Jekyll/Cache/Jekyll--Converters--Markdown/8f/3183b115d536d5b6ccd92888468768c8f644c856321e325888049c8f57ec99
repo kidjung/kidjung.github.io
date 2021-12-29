@@ -1,0 +1,37 @@
+I"
+<div class="list__item">
+  <article class="archive__item" itemscope="" itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/coding-test/PS_split/" rel="permalink">코테 대비 c++ 문자열 처리 - 1 Split
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          2 분 소요
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">알고리즘을 백준으로만 공부하면서 풀다가 최근에야 프로그래머스로 몇개의 코딩테스트를 응시하였었다.
+응시 후 드는 생각은 ‘풀이 방식은 알 것 같은데 구현시간이 너무 느리지…’ 였다. 한 번 그러고 말면 괜찮은데 여러번 반복이 되니까 나의 구현 실력에 큰 문제가 있음을 깨닫고 쉬운문제...</p>
+  </article>
+</div>
+
+:ET
