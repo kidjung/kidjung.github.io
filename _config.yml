@@ -105,7 +105,7 @@ analytics:
 # Site Author
 author:
   name             : "Ki Jung Park"
-  avatar           : assets/avatar.PNG # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
+  avatar           : assets/avatar.png # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
   bio              : "Hi I'm KidJung. <br/> Here is my playground. 💻"
   location         : "Currently I'm in Seoul!"
   email            : 
