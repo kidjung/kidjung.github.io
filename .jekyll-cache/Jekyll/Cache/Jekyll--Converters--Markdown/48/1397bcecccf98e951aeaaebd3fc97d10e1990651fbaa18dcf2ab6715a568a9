@@ -1,0 +1,120 @@
+I"�/<ul>
+  <li>
+    <p>예시 프로젝트 내용은 이해하기 쉽게 “김영한 강사님의 spring 강의”에서 사용했던 예제를 참고하여 만들었다.
+Member정보를 등록하고 Member가 VIP인지 확인하여 할인 금액을 출력할 수 있도록 하였다.</p>
+  </li>
+  <li>
+    <p>의존성 주입의 경우 Spring사용의 경험이 있어 빗대어서 이해하였다.</p>
+  </li>
+</ul>
+
+<p>실제 프로젝트에서는 config 부분과 테스트 코드를 나눠서 구현하여야겠지만, 여기서는 설명을 위해 한 소스파일에 설정 주입 과 로직 실행 모두 넣었다.</p>
+
+<h2 id="각-객체의-주입-설정-부분">각 객체의 주입 설정 부분</h2>
+<p>주입을 받기 원하는 곳에 `<code class="language-plaintext highlighter-rouge">inject:""</code>`를 붙여준다</p>
+
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">type</span> <span class="n">MemberServiceImpl</span> <span class="k">struct</span> <span class="p">{</span>
+	<span class="n">Repo</span> <span class="n">Repository</span> <span class="s">`inject:""`</span> <span class="c">// 주입 받기 위해 `inject:""` 붙임</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="유저를-저장하는-레포지토리">유저를 저장하는 레포지토리</h2>
+<p>유저를 저장하는 <code class="language-plaintext highlighter-rouge">Repository</code> 인터페이스는 다음과 같다.</p>
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">type</span> <span class="n">Repository</span> <span class="k">interface</span> <span class="p">{</span>
+	<span class="n">Save</span><span class="p">(</span><span class="n">member</span> <span class="n">Member</span><span class="p">)</span><span class="s">`
+	FindById(id int) Member
+}
+</span></code></pre></div></div>
+
+<h2 id="각-구현체-의존-부분">각 구현체 의존 부분</h2>
+
+<p>멤버를 관리하는 <code class="language-plaintext highlighter-rouge">MemberService</code> 인터페이스와 <code class="language-plaintext highlighter-rouge">MemberServiceImpl</code> 구현체이다.
+유저를 저장하는 레포지토리 인터페이스를 주입받는다.</p>
+
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">type</span> <span class="n">MemberService</span> <span class="k">interface</span> <span class="p">{</span>
+	<span class="n">Join</span><span class="p">(</span><span class="n">member</span> <span class="n">Member</span><span class="p">)</span>
+	<span class="n">FindMember</span><span class="p">(</span><span class="n">id</span> <span class="kt">int</span><span class="p">)</span> <span class="n">Member</span>
+<span class="p">}</span>
+
+<span class="k">type</span> <span class="n">MemberServiceImpl</span> <span class="k">struct</span> <span class="p">{</span>
+	<span class="n">Repo</span> <span class="n">Repository</span> <span class="s">`inject:""`</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p>주문을 처리하는 <code class="language-plaintext highlighter-rouge">OrderService</code> 인터페이스와 <code class="language-plaintext highlighter-rouge">OrderServiceImpl</code> 구현체이다.
+유저를 저장하는 레포지토리와 할인 정책을 결정하는 DiscountPolicy 인터페이스를 주입받는다</p>
+
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">type</span> <span class="n">OrderService</span> <span class="k">interface</span> <span class="p">{</span>
+	<span class="n">CreateOrder</span><span class="p">(</span><span class="n">id</span> <span class="kt">int</span><span class="p">,</span> <span class="n">itemName</span> <span class="kt">string</span><span class="p">,</span> <span class="n">itemPrice</span> <span class="kt">int</span><span class="p">)</span> <span class="o">*</span><span class="n">Order</span>
+<span class="p">}</span>
+
+<span class="k">type</span> <span class="n">OrderServiceImpl</span> <span class="k">struct</span> <span class="p">{</span>
+	<span class="n">Repository</span> <span class="n">Repository</span> <span class="s">`inject:""`</span>
+	<span class="n">DisPolicy</span>  <span class="n">DiscountPolicy</span> <span class="s">`inject:""`</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="initgo의-run-부분">init.go의 Run() 부분</h2>
+
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">func</span> <span class="p">(</span><span class="n">mini</span> <span class="n">MiniProject</span><span class="p">)</span> <span class="n">Run</span><span class="p">()</span> <span class="p">{</span>
+	<span class="n">member</span> <span class="o">:=</span> <span class="n">Member</span><span class="p">{</span><span class="m">1</span><span class="p">,</span><span class="s">"kj"</span><span class="p">,</span><span class="no">true</span><span class="p">}</span>
+
+	<span class="c">// 그래프 생성 (스프링의 스프링 컨테이너 역할 인 듯 하다.)</span>
+	<span class="k">var</span> <span class="n">graph</span> <span class="n">inject</span><span class="o">.</span><span class="n">Graph</span>
+
+	<span class="c">// 그래프에 오브젝트 제공</span>
+	<span class="n">err</span> <span class="o">:=</span> <span class="n">graph</span><span class="o">.</span><span class="n">Provide</span><span class="p">(</span>
+		<span class="o">&amp;</span><span class="n">inject</span><span class="o">.</span><span class="n">Object</span><span class="p">{</span><span class="n">Value</span><span class="o">:</span> <span class="n">NewMemoryRepository</span><span class="p">()},</span>
+     		<span class="o">&amp;</span><span class="n">inject</span><span class="o">.</span><span class="n">Object</span><span class="p">{</span><span class="n">Value</span><span class="o">:</span> <span class="n">NewMemberServiceImplWithNoArgs</span><span class="p">(),</span> <span class="n">Name</span><span class="o">:</span> <span class="s">"memberServiceImpl"</span><span class="p">},</span>
+            	<span class="o">&amp;</span><span class="n">inject</span><span class="o">.</span><span class="n">Object</span><span class="p">{</span><span class="n">Value</span><span class="o">:</span> <span class="n">NewFixDiscountPolicy</span><span class="p">(</span><span class="m">1000</span><span class="p">)}),</span>
+		<span class="o">&amp;</span><span class="n">inject</span><span class="o">.</span><span class="n">Object</span><span class="p">{</span><span class="n">Value</span><span class="o">:</span> <span class="n">NewOrderServiceImpl</span><span class="p">(),</span> <span class="n">Name</span><span class="o">:</span> <span class="s">"orderServiceImpl"</span><span class="p">}</span>
+	<span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
+		<span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+		<span class="k">return</span>
+	<span class="p">}</span>
+
+	<span class="c">// 의존성을 주입 실행 부분</span>
+	<span class="n">err</span> <span class="o">=</span> <span class="n">graph</span><span class="o">.</span><span class="n">Populate</span><span class="p">()</span>
+	<span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
+		<span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+		<span class="k">return</span>
+	<span class="p">}</span>
+    
+    
+    
+    	<span class="c">// ------------ 테스트 코드 작성 ---------------</span>
+
+	<span class="k">var</span> <span class="n">memberService</span> <span class="n">MemberService</span>
+	<span class="k">var</span> <span class="n">orderService</span> <span class="n">OrderService</span>
+    
+	<span class="c">// 의존성 자동 주입이 완료된 구조체 인터페이스에 대입 name을 이용해서 graph에서 싱글턴 객체를 꺼내서 사용</span>
+	<span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">obj</span> <span class="o">:=</span> <span class="k">range</span> <span class="n">graph</span><span class="o">.</span><span class="n">Objects</span><span class="p">()</span> <span class="p">{</span>
+		<span class="k">if</span> <span class="n">obj</span><span class="o">.</span><span class="n">Name</span> <span class="o">==</span> <span class="s">"memberServiceImpl"</span> <span class="p">{</span>
+			<span class="n">memberService</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">Value</span><span class="o">.</span><span class="p">(</span><span class="o">*</span><span class="n">MemberServiceImpl</span><span class="p">)</span>
+		<span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="n">obj</span><span class="o">.</span><span class="n">Name</span> <span class="o">==</span> <span class="s">"orderServiceImpl"</span> <span class="p">{</span>
+			<span class="n">orderService</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">Value</span><span class="o">.</span><span class="p">(</span><span class="o">*</span><span class="n">OrderServiceImpl</span><span class="p">)</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+	<span class="n">memberService</span><span class="o">.</span><span class="n">Join</span><span class="p">(</span><span class="n">member</span><span class="p">)</span>
+	<span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s">"멤버 찾기 결과: "</span><span class="p">,</span><span class="n">memberService</span><span class="o">.</span><span class="n">FindMember</span><span class="p">(</span><span class="m">1</span><span class="p">))</span>
+
+	<span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s">"주문 생성 결과: "</span> <span class="p">,</span><span class="n">orderService</span><span class="o">.</span><span class="n">CreateOrder</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="s">"Mac"</span><span class="p">,</span> <span class="m">100000</span><span class="p">))</span>
+
+	<span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s">"의존성 그래프 존재하는 모든 객체 출력"</span><span class="p">)</span>
+	<span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">obj</span> <span class="o">:=</span> <span class="k">range</span> <span class="n">graph</span><span class="o">.</span><span class="n">Objects</span><span class="p">()</span> <span class="p">{</span>
+		<span class="n">log</span><span class="o">.</span><span class="n">Printf</span><span class="p">(</span><span class="s">"object known: %v</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">obj</span><span class="p">)</span>
+	<span class="p">}</span>
+</code></pre></div></div>
+<h2 id="실행결과">실행결과</h2>
+<p>실행결과는 다음과 같고 정상적으로 주입이 되었음이 확인 가능하다.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>멤버 찾기 결과:  {1 kj true}
+주문 생성 결과:  &amp;{1 Mac 100000 1000}
+의존성 그래프 존재하는 모든 객체 출력
+2021/08/03 16:07:15 object known: *modules.OrderServiceImpl named orderServiceImpl
+2021/08/03 16:07:15 object known: *modules.MemberServiceImpl named memberServiceImpl
+2021/08/03 16:07:15 object known: *modules.MemoryRepository
+2021/08/03 16:07:15 object known: *modules.FixDiscountPolicy
+
+</code></pre></div></div>
+
+<p>참고: https://pkg.go.dev/github.com/facebookgo/inject#section-readme</p>
+:ET

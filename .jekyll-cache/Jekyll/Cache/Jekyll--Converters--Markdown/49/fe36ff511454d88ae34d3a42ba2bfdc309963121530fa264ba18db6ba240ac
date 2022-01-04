@@ -1,0 +1,40 @@
+I"�
+<div class="list__item">
+  <article class="archive__item" itemscope="" itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/go/Go_facebookgo/" rel="permalink">facebookgo/inject를 이용하여 Golang에서의  DI를 해보자
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          1 분 소요
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">
+  예시 프로젝트 내용은 이해하기 쉽게 “김영한 강사님의 spring 강의”에서 사용했던 예제를 참고하여 만들었다.
+Member정보를 등록하고 Member가 VIP인지 확인하여 할인 금액을 출력할 수 있도록 하였다.
+
+</p>
+  </article>
+</div>
+
+:ET
